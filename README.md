@@ -1,2 +1,2 @@
-# benchmarkgame-d
+# benchmarksgame-d
 
