@@ -1,4 +1,7 @@
-// ldc2 -O3 threadrng.d
+// The Computer Language Benchmakrs Game
+// http://benchmakrsgame.alioth.debian.org/
+//
+// dmd -O -inline binarytrees.d
 
 import core.stdc.stdio;
 import std.concurrency;
