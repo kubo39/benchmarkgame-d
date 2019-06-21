@@ -1,7 +1,12 @@
+// The Computer Language Benchmakrs Game
+// http://benchmakrsgame.alioth.debian.org/
+//
+// dmd -O -inline binarytrees.d
+
 import core.stdc.stdio;
-import std.algorithm;
+import std.algorithm : sum;
 import std.conv : parse;
-import std.format;
+import std.format : format;
 import std.parallelism;
 import std.range : iota;
 import std.string : toStringz;
@@ -14,7 +19,7 @@ struct Node
     Node* right;
 }
 
-Node* bottomUpTree(int depth)
+Node* bottomUpTree(int depth) nothrow pure
 {
     Node* node = new Node;
     if (depth > 0)
@@ -25,7 +30,7 @@ Node* bottomUpTree(int depth)
     return node;
 }
 
-int itemCheck(Node* node)
+int itemCheck(const(Node)* node) @nogc nothrow pure
 {
     if (node.left is null)
         return 1;
@@ -35,7 +40,7 @@ int itemCheck(Node* node)
 string inner(int depth, int iterations)
 {
     auto sums = taskPool.workerLocalStorage(0);
-    foreach (i; parallel(iota(0, iterations)))
+    foreach (_; parallel(iota(0, iterations)))
         sums.get += bottomUpTree(depth).itemCheck();
     return format("%d\t trees of depth %d\t check: %d\n", iterations, depth, sums.toRange.sum());
 }
@@ -49,13 +54,16 @@ void main(string[] args)
         const check = bottomUpTree(depth).itemCheck();
         printf("strech tree of depth %d\t check: %d\n", depth, check);
     }
-    auto longLivedTree = bottomUpTree(maxDepth);
-    foreach (halfDepth; iota(minDepth/2, maxDepth/2 + 1))
+    const longLivedTree = bottomUpTree(maxDepth);
+    string[] messages;
+    foreach (const halfDepth; iota(minDepth/2, maxDepth/2 + 1))
     {
         const depth = halfDepth * 2;
-        auto iterations = 1 << (maxDepth - depth + minDepth);
-        string s = inner(depth, iterations);
-        printf(s.toStringz);
+        const iterations = 1 << (maxDepth - depth + minDepth);
+        const message = inner(depth, iterations);
+        messages ~= message;
     }
+    foreach (message; messages)
+        printf(message.toStringz);
     printf("long lived tree of depth %d\t check: %d\n", maxDepth, longLivedTree.itemCheck());
 }
