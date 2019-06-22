@@ -1,7 +1,7 @@
 // The Computer Language Benchmakrs Game
 // http://benchmakrsgame.alioth.debian.org/
 //
-// dmd -O -inline binarytrees.d
+// dmd -mcpu=native -O -inline binarytrees.d
 
 import core.stdc.stdio;
 import std.algorithm : sum;
