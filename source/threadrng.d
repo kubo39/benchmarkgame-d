@@ -11,9 +11,8 @@ void start(int nTasks, int token)
 {
     // メインスレッドは最後のIDを持つスレッドに送信
     Tid tid = spawn(&roundtrip, thisTid, 1 /* id */, nTasks);
-    // id: nのスレッドはid: n+1のスレッドに送る
-    foreach (id; 2 .. (nTasks + 1))
-        // 次に生成するスレッドはひとつ前のスレッドIDに送信する
+    // 次に生成するスレッドはひとつ前のidのスレッドに送信
+    foreach_reverse (id; 2 .. (nTasks + 1))
         tid = spawn(&roundtrip, tid, id, nTasks);
 
     while (token > 0)
