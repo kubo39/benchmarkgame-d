@@ -52,7 +52,7 @@ void main(string[] args)
     {
         const depth = maxDepth + 1;
         const check = bottomUpTree(depth).itemCheck();
-        printf("strech tree of depth %d\t check: %d\n", depth, check);
+        printf("stretch tree of depth %d\t check: %d\n", depth, check);
     }
     const longLivedTree = bottomUpTree(maxDepth);
     string[] messages;

@@ -29,7 +29,7 @@ void roundtrip(Tid tid, int id, int nTasks)
         auto token = receiveOnly!int;
         if (token == 1)
         {
-            printf("id: %d\n", id);
+            printf("%d\n", id);
             ownerTid.send(token - 1);
             break;
         }
