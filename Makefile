@@ -13,6 +13,9 @@ clean:
 distclean: clean
 	rm -fr bin out
 
+bin/binary_trees:
+bin/thread_ring:
+
 bin/%: source/%.d
 	mkdir -p bin
 	$(DC) $(DC_CFLAGS) $< -of./$@
