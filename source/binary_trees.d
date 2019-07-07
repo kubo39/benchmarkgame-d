@@ -1,7 +1,7 @@
 // The Computer Language Benchmakrs Game
 // http://benchmakrsgame.alioth.debian.org/
 //
-// dmd -mcpu=native -O -inline binarytrees.d
+// dmd -mcpu=native -O -inline -boundscheck=off binary_trees.d
 
 import core.stdc.stdio;
 import std.algorithm : sum;
@@ -21,7 +21,7 @@ struct Node
 
 Node* bottomUpTree(int depth) nothrow pure
 {
-    Node* node = new Node;
+    auto node = new Node;
     if (depth > 0)
     {
         node.left = bottomUpTree(depth-1);
@@ -47,19 +47,19 @@ string inner(int depth, int iterations)
 
 void main(string[] args)
 {
-    const n = args.length > 1 ? parse!int(args[1]) : 10;
-    const maxDepth = minDepth + 2 > n ? minDepth + 2 : n;
+    immutable n = args.length > 1 ? parse!int(args[1]) : 10;
+    immutable maxDepth = minDepth + 2 > n ? minDepth + 2 : n;
     {
-        const depth = maxDepth + 1;
-        const check = bottomUpTree(depth).itemCheck();
+        immutable depth = maxDepth + 1;
+        immutable check = bottomUpTree(depth).itemCheck();
         printf("stretch tree of depth %d\t check: %d\n", depth, check);
     }
     const longLivedTree = bottomUpTree(maxDepth);
     string[] messages;
     foreach (const halfDepth; iota(minDepth/2, maxDepth/2 + 1))
     {
-        const depth = halfDepth * 2;
-        const iterations = 1 << (maxDepth - depth + minDepth);
+        immutable depth = halfDepth * 2;
+        immutable iterations = 1 << (maxDepth - depth + minDepth);
         const message = inner(depth, iterations);
         messages ~= message;
     }

@@ -1,7 +1,7 @@
 // The Computer Language Benchmakrs Game
 // http://benchmakrsgame.alioth.debian.org/
 //
-// dmd -mcpu=native -O -inline binarytrees.d
+// dmd -mcpu=native -O -inline -boundscheck=off thread_ring.d
 
 import core.stdc.stdio;
 import std.concurrency;

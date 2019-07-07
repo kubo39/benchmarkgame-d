@@ -1,6 +1,6 @@
 SOURCES = $(wildcard source/*.d)
 DC ?= dmd
-DC_CFLAGS ?= -mcpu=native -O -inline
+DC_CFLAGS ?= -mcpu=native -O -inline -boundscheck=off
 
 .PHONY: all distclean clean
 .SECONDARY:
@@ -17,7 +17,7 @@ bin/binary_trees:
 bin/thread_ring:
 
 bin/%: source/%.d
-	mkdir -p bin
+	@mkdir -p bin
 	$(DC) $(DC_CFLAGS) $< -of./$@
 
 out/%.txt: bin/% data/%.txt
